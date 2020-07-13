@@ -3,7 +3,7 @@ from telebot import types
 import requests
 from bs4 import BeautifulSoup
 
-bot = telebot.TeleBot()
+bot = telebot.TeleBot('TOKEN')
 
 URL = 'https://finance.i.ua/fuel/'
 HEADERS = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', 'accept': '*/*'}
@@ -59,12 +59,11 @@ def fuel(message):
     cost_dict.clear()
     parse(URL, message.text.lower())
 
+    btn = types.InlineKeyboardMarkup()    
     for i in sort(cost_dict):
-        btn = types.InlineKeyboardMarkup()        
-        # btn_fuel= types.InlineKeyboardButton(text=f'{i[0]}', url=f'https://www.google.com/maps/search/киев+автозаправка+{i[0]}')
-        btn_fuel= types.InlineKeyboardButton(text=f'{i[0]} - {i[1]} грн/л', url=f'https://www.google.com/maps/search/киев+автозаправка+{i[0]}')
+        btn_fuel= types.InlineKeyboardButton(text=f'{i[0]} - {i[1]} грн/л', url=f'https://www.google.com/maps/search/автозаправка+{i[0]}')
         btn.add(btn_fuel)
-        # bot.send_message(message.chat.id, f'{i[0]} - {i[1]} грн/л', reply_markup = btn)
-        bot.send_message(message.chat.id, reply_markup = btn, text='.')
+    bot.send_message(message.chat.id, reply_markup = btn, text=f'Актуальные цены на {message.text}')
     
-bot.polling(timeout=999999)
+if __name__== "__main__":
+    bot.polling(none_stop=True, timeout=999999)
