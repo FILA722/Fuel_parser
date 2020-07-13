@@ -3,7 +3,7 @@ from telebot import types
 import requests
 from bs4 import BeautifulSoup
 
-bot = telebot.TeleBot('969683050:AAE1iA2bTZm4GGQTvaTyRUoMdAhEpRPN1zs')
+bot = telebot.TeleBot()
 
 URL = 'https://finance.i.ua/fuel/'
 HEADERS = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', 'accept': '*/*'}
@@ -39,15 +39,6 @@ def sort(cost_dict):
     cost_list.sort(key=lambda i: i[1])
     return cost_list[::-1]
 
-def cycle_funk():
-    #попроуй передать вместо "r" аргумент "+"или "r+w" и удалить открытие на запись.
-    fuel_cycl = open('/Users/fila/Documents/Python/Fuel_bot/fuel_cycl.txt', 'r')
-    cycles = fuel_cycl.read()
-    cycles = int(cycles) + 1
-    fuel_cycl = open('/Users/fila/Documents/Python/Fuel_bot/fuel_cycl.txt', 'w')
-    fuel_cycl.write(str(cycles))
-    fuel_cycl.close()
-
 @bot.message_handler(commands=['start'])
 def btn(message):
     markup = types.ReplyKeyboardMarkup(row_width=3)
@@ -75,7 +66,5 @@ def fuel(message):
         btn.add(btn_fuel)
         # bot.send_message(message.chat.id, f'{i[0]} - {i[1]} грн/л', reply_markup = btn)
         bot.send_message(message.chat.id, reply_markup = btn, text='.')
-
-    cycle_funk()
     
 bot.polling(timeout=999999)
