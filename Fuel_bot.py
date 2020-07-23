@@ -230,18 +230,23 @@ def callback_inline(call):
     if call.message:
         if call.data == "Винницкая область":
             azs_area_names = ['Chipo', 'Mango', 'Shell', 'SUN OIL', 'WOG', 'БРСМ-Нафта', 'OKKO', 'Укрнафта']
-            print(azs_area_names)
-            # create_fuel_buttons(azs_area_names)
+            create_fuel_buttons(call, azs_area_names)
 
-# def create_fuel_buttons(azs_area_names):
-#     fuel_btns = ['A95+', 'A95', 'A92', 'Diesel', 'GAS']
+def create_fuel_buttons(call, azs_area_names):
+    fuel_btns = ['A95+', 'A95', 'A92', 'Diesel', 'GAS']
+    btn = types.InlineKeyboardMarkup()
+    for i in fuel_btns:
+        btn_fuels = types.InlineKeyboardButton(text=i, callback_data=i)
+        btn.add(btn_fuels)    
+    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Выберите тип топлива", reply_markup=btn)
     
-#     btn = types.InlineKeyboardMarkup()
-#     for i in fuel_btns:
-#         btn_fuels = types.InlineKeyboardButton(text=i, callback_data=i)
-#         btn.add(btn_fuels)    
-#     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Выберите тип топлива", reply_markup=btn)
-    
+    request(call, azs_area_names)
+
+def request(call, azs_area_names):
+    if call.message:
+        if call.data == "A95":
+            print(call.data)
+            print(azs_area_names)
 #     if call.message:
 #         titles, fuel_costs = parse(URL)
 #         azs_names = azs_titles(titles)
