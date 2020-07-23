@@ -241,7 +241,8 @@ def create_fuel_buttons(call, azs_area_names):
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Выберите тип топлива", reply_markup=btn)
     
     request(call, azs_area_names)
-
+    
+# @bot.callback_query_handler(func=lambda call: True)
 def request(call, azs_area_names):
     if call.message:
         if call.data == "A95":
